@@ -7,7 +7,6 @@
     "dev": "ts-node-dev src/index.ts",
     "lint": "ts-standard",
     "start": "node build/index.js",
-    //Use the command npm run tsc to build the backend before deploying a new commit!
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

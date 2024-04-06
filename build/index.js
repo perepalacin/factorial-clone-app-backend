@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const watches_1 = __importDefault(require("./routes/watches"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json()); //Middleware to transform req.body into a json
-app.use('/', express_1.default.static('dist'));
+app.use("/", express_1.default.static("dist"));
 const PORT = 3000;
 app.get('/ping', (_req, res) => {
     console.log('Someone pinged here');
