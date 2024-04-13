@@ -29,7 +29,6 @@ export const getSummarizedWatchData = (): SummarizedWatchEntry[] => {
 
 
 export const addWatchEntry = (newWatchBody: NewWatchEntry): WatchEntry => {
-    
     const id = uuid();
     console.log("this is it");
     const newWatchEntry = {
