@@ -1,6 +1,7 @@
 import express from 'express'
 import employeeRouter from './routes/employees';
 import holidaysRouter from './routes/holidays';
+import eventsRouter from './routes/events';
 import cors from 'cors';
 
 const app = express();
@@ -18,11 +19,7 @@ app.get('/ping', (_req, res) => {
 
 app.use('/api/employees', employeeRouter);
 app.use('/api/holidays', holidaysRouter);
-
-// app.get('/api/employees', async (_req, res) => {
-//     const employees = await sql`SELECT * FROM employees`
-//     res.json(employees)
-//   })
+app.use('/api/events', eventsRouter);
 
 
 app.listen(PORT, () => {
