@@ -50,12 +50,12 @@ CREATE TABLE employee_teams (
 
 INSERT INTO employee_teams (team_id, employee_id)
 VALUES 
-    (1, 4), (1, 5), (1, 8),
-    (2, 4), (2, 6), (2, 7), (2, 8), (2, 14),
-    (3, 14), (3, 17),
-    (4, 11), (4, 12), (4, 13),
-    (5, 5), (5, 14), (5, 15), (5, 16), (5, 18), (5, 19),
-    (6, 9), (6, 10);
+    (1, 1), (1, 2), (1, 5),
+    (2, 1), (2, 2), (2, 3), (2, 5), (2, 10),
+    (3, 10), (3, 13),
+    (4, 7), (4, 8), (4, 9),
+    (5, 2), (5, 10), (5, 11), (5, 12), (5, 14), (5, 15),
+    (6, 5), (6, 6);
 
 CREATE TABLE absences (
     id SERIAL PRIMARY KEY,
@@ -109,3 +109,28 @@ VALUES
   ('2024 Calendar', 6, '2023-12-28', 'Company announcements', null, null, 'Calling to all team members! Join us on January 2nd, 2024, for an important meeting where we will unveil the exciting details of our 2024 calendar. Don''t miss out on this opportunity to stay informed and prepared for the year ahead!'),
   ('Christmass special event!', 6, '2023-12-15', 'Teambuilding activity', 'Attico Terrace Barcelona', 'https://www.mercerbarcelona.com/photo/restaurantes/6/7/terrace.jpg?w=1600', 'Greetings team! Let''s celebrate the holidays together with a festive dinner at ''The Festive Feast'' restaurant on December 22nd, 2023. Come enjoy great food, laughter, and camaraderie as we toast to a successful year and look forward to the adventures ahead!'),
   ('Friday team building activity', 7, '2023-11-21', 'Teambuilding activity', 'Paris Coffee', 'https://hips.hearstapps.com/hmg-prod/images/cafeterias-barcelona-elle-1651662668.jpg?crop=1xw:1xh;center,top&resize=980:*', 'Hello everyone! We are going to celebrate that we hit our goals for 2023 in the Paris Cafeteria tonight at 20PM!');
+
+CREATE TABLE absences (
+    id SERIAL PRIMARY KEY,
+    type VARCHAR(255),
+    start DATE,
+    finish DATE,
+    employee_id INT REFERENCES employees(id)
+);
+
+INSERT INTO absences (type, "from", "to", employee_id)
+VALUES 
+    ('Time off', '2024-01-01', '2024-01-07', 4),
+    ('Time off', '2024-01-01', '2024-01-04', 5),
+    ('Time off', '2024-01-01', '2024-01-06', 8),
+    ('Time off', '2024-04-12', '2024-04-15', 9),
+    ('Time off', '2024-04-17', '2024-04-21', 12),
+    ('Time off', '2024-04-12', '2024-04-21', 15),
+    ('Overtime compensation', '2024-04-29', '2024-05-03', 6),
+    ('Overtime compensation', '2024-04-17', '2024-04-21', 11),
+    ('Overtime compensation', '2024-04-22', '2024-04-23', 17),
+    ('Maternity leave', '2024-03-12', '2024-08-23', 9),
+    ('Maternity leave', '2024-04-01', '2024-09-19', 14),
+    ('Medical absence', '2024-04-03', '2024-04-04', 13),
+    ('Medical absence', '2024-04-07', '2024-04-08', 7),
+    ('Medical absence', '2024-04-05', '2024-04-07', 10);

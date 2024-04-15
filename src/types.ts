@@ -20,6 +20,15 @@ export interface WatchEntry {
     mechanism: Mechanism,
 }
 
+export interface TeamMemberDetails {
+    name: string;
+    picture: string;
+}
+export interface TeamMemberProps {
+    teamName: string;
+    members: TeamMemberDetails[];
+}
+
 // export type SummarizedWatchEntry = Pick<DiaryEntry, "id" | "name" | "created_at">;
 export type SummarizedWatchEntry = Omit<WatchEntry, 'description'>;
 
