@@ -1,5 +1,10 @@
 import { Brand, Mechanism, NewWatchEntry } from "./types";
 
+export function isDateInRange(dateToCheck: Date, startDate: Date, endDate: Date): boolean {
+    console.log("Date to check is called");
+    return dateToCheck >= startDate && dateToCheck <= endDate;
+}
+
 const parseDescription = (descriptionFromRequest: any): string => {
     if (!isString(descriptionFromRequest)) {
         throw new Error('Incorrect or missing description');
