@@ -1,7 +1,6 @@
 import express from 'express';
 import sql from '../db';
 import axios from 'axios';
-import { isDateInRange } from '../utils';
 
 const router = express.Router();
 
@@ -38,41 +37,37 @@ router.get('/:id', async (req, res) => {
 
 router.post('/submit', async (req, res) => {
     const requestedHolidays = req.body;
+    let validatedData = true; // Use let instead of var for block-scoped variables
+    //TODO: Check if the user has enough days off left to request this holidays.
     try {
-        axios
-        .get(`http://localhost:3000/api/holidays/${requestedHolidays.employee_id}`)
-        .then((response) => {
-            console.log("lets check");
-            const previousHolidays = response.data;
-            console.log(previousHolidays);
-            if (previousHolidays.length >= 1) {
-                console.log("We have data");
-                for (let i = 0; i < previousHolidays.length; i++) {
-                    //We check if the days we requestes interferes with any of the previous absences we had.
-                    const startDate = new Date(previousHolidays[i].start);
-                    const endDate = new Date(previousHolidays[i].finish);
-                    console.log(startDate.getDate());
-                    console.log(endDate.getMonth());
-                    if (isDateInRange(requestedHolidays.start, startDate, endDate) || isDateInRange(requestedHolidays.finish, startDate, endDate)) {
-                        console.log("condition met");
-                        throw new Error("Invalid requested days");
-                    }
+        const response = await axios.get(`http://localhost:3000/api/holidays/${requestedHolidays.employee_id}`);
+        const previousHolidays = response.data;
+        if (previousHolidays.length >= 1) {
+            console.log("We have data");
+            for (let i = 0; i < previousHolidays.length; i++) {
+                const startDate = (new Date(previousHolidays[i].start)).getTime();
+                const endDate = (new Date(previousHolidays[i].finish)).getTime();
+                const requestedStart = (new Date(requestedHolidays.start)).getTime();
+                const requestedEnd = (new Date(requestedHolidays.finish)).getTime();
+                if ((requestedStart >= startDate && requestedStart <= endDate) || (requestedEnd >= startDate && requestedEnd <= endDate)) {
+                    validatedData = false;
+                    break;
                 }
             }
-        })
-        .catch((error) => {
-            throw new Error ("Failed to fetch previous absences" + error);
-        });
-            const petition = await sql`
+        }
+        if (!validatedData) {
+            return res.status(406).json({ error: "The days requested conflict with a previous request" });
+        }
+        const petition = await sql`
             INSERT INTO absences (type, start, finish, employee_id)
             VALUES (${requestedHolidays.type}, ${requestedHolidays.start}, ${requestedHolidays.finish}, ${requestedHolidays.employee_id})`;
-            console.log("Petition inserted succesfully " + petition);
-            res.status(200).json({message: "Holiday request submitted succesfully"});
-        } catch (error) {
-            console.error("Error inserting absence data: ", error);
-            res.status(500).json({error: "Internal server error"});
-        }
-        });
+        console.log("Petition inserted successfully " + petition);
+        return res.status(200).json({ message: "Holiday request submitted successfully" });
+    } catch (error) {
+        console.error("Error inserting absence data: ", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 
 export default router

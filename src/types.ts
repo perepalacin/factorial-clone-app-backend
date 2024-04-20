@@ -29,6 +29,14 @@ export interface TeamMemberProps {
     members: TeamMemberDetails[];
 }
 
+export interface absences_data {
+    id: number | undefined;
+    type: string; //TODO: Turn into enum;
+    start: Date;
+    finish: Date;
+    employee_id: number;
+}
+
 // export type SummarizedWatchEntry = Pick<DiaryEntry, "id" | "name" | "created_at">;
 export type SummarizedWatchEntry = Omit<WatchEntry, 'description'>;
 
