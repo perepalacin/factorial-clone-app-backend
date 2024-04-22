@@ -27,6 +27,33 @@ VALUES
     ('Jesus Rovira Vegas', 'Front End Engineer', 'https://res.cloudinary.com/cybercoders/image/upload/c_scale,g_south_east,l_cc_logo_bug_wenazs.png,w_40/v1656456343/professional_working_from_home_wearing_headphones_vwjtbq.jpg', '2019-09-14', 'Malaga', 'jesus.rovira@business.com'),
     ('Pere Palacín Pallàs', 'Full Stack Developer', 'https://media.licdn.com/dms/image/C5603AQGeGCCQdLqu5g/profile-displayphoto-shrink_800_800/0/1606578573185?e=1718841600&v=beta&t=_kWCNO4iQmuDx0H_Mq2hTkUMHlEvUORLoGySRCRaCuk', '2024-04-14', 'Barcelona', 'perepalacin@gmail.com');
 
+ALTER TABLE employees
+ADD COLUMN supervisor INT REFERENCES employees(id);
+
+
+UPDATE employees
+SET supervisor = CASE 
+    WHEN id = 4 THEN 4
+    WHEN id = 5 THEN 5
+    WHEN id = 6 THEN 4
+    WHEN id = 7 THEN 4
+    WHEN id = 8 THEN 7
+    WHEN id = 9 THEN 4
+    WHEN id = 10 THEN 9
+    WHEN id = 11 THEN 5
+    WHEN id = 12 THEN 11
+    WHEN id = 13 THEN 11
+    WHEN id = 14 THEN 5
+    WHEN id = 15 THEN 5
+    WHEN id = 16 THEN 15
+    WHEN id = 17 THEN 14
+    WHEN id = 18 THEN 15
+    WHEN id = 19 THEN 15
+    ELSE supervisor
+    END
+WHERE id IN (4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
+
+
 CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
     team_name VARCHAR(255) NOT NULL
@@ -134,3 +161,11 @@ VALUES
     ('Medical absence', '2024-04-03', '2024-04-04', 13),
     ('Medical absence', '2024-04-07', '2024-04-08', 7),
     ('Medical absence', '2024-04-05', '2024-04-07', 10);
+
+CREATE TABLE shifts (
+    id SERIAL PRIMARY KEY,
+    start DATE,
+    finish DATE,
+    type BOOLEAM,
+    employee_id INT REFERENCES employees(id)
+);

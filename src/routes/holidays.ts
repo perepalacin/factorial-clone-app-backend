@@ -43,7 +43,6 @@ router.post('/submit', async (req, res) => {
         const response = await axios.get(`http://localhost:3000/api/holidays/${requestedHolidays.employee_id}`);
         const previousHolidays = response.data;
         if (previousHolidays.length >= 1) {
-            console.log("We have data");
             for (let i = 0; i < previousHolidays.length; i++) {
                 const startDate = (new Date(previousHolidays[i].start)).getTime();
                 const endDate = (new Date(previousHolidays[i].finish)).getTime();
@@ -68,7 +67,6 @@ router.post('/submit', async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
-
 
 export default router
 
