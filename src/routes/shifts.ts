@@ -4,12 +4,19 @@ import sql from '../db';
 const router = express.Router();
 
 router.get('/:id/:month/:year', async (req, res) => {
-    const employeeId = req.params.id;
-    const month = req.params.month;
-    const year = req.params.year;
-    const shifts = await sql`SELECT * FROM shifts WHERE employee_id = ${employeeId} AND `
-    const employees = await sql`SELECT * FROM employees WHERE id = ${employeeId}`
-    res.json(employees)
+    console.log("Called");
+    const employeeId = Number(req.params.id);
+    const month = Number(req.params.month) + 1;
+    const year = Number(req.params.year);
+    const shifts = await sql
+    `SELECT *
+    FROM shifts
+    WHERE employee_id = ${employeeId}
+    AND EXTRACT(YEAR FROM day) = ${year}
+    AND EXTRACT(MONTH FROM day) = ${month}
+    ORDER BY start ASC;`
+    res.json(shifts);
+    console.log(shifts);
 });
 
 

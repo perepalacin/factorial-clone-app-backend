@@ -2,6 +2,7 @@ import express from 'express'
 import employeeRouter from './routes/employees';
 import holidaysRouter from './routes/holidays';
 import eventsRouter from './routes/events';
+import shiftsRouter from './routes/shifts';
 import cors from 'cors';
 
 const app = express();
@@ -20,7 +21,7 @@ app.get('/ping', (_req, res) => {
 app.use('/api/employees', employeeRouter);
 app.use('/api/holidays', holidaysRouter);
 app.use('/api/events', eventsRouter);
-
+app.use('/api/shifts', shiftsRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

@@ -164,8 +164,15 @@ VALUES
 
 CREATE TABLE shifts (
     id SERIAL PRIMARY KEY,
-    start DATE,
-    finish DATE,
-    type BOOLEAM,
+    day DATE,
+    start TIME,
+    finish TIME,
+    working BOOLEAN,
     employee_id INT REFERENCES employees(id)
 );
+
+INSERT INTO shifts (day, "start", "finish", working, employee_id)
+VALUES 
+    ('2024-04-01', '08:55:00', '13:12:00', TRUE, 19),
+    ('2024-04-01', '13:13:00', '14:01:00', FALSE, 19),
+    ('2024-04-01', '14:02:00', '18:07:00', TRUE, 19);
