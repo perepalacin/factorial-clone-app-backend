@@ -14,7 +14,7 @@ router.get('/:id/:month/:year', async (req, res) => {
     WHERE employee_id = ${employeeId}
     AND EXTRACT(YEAR FROM day) = ${year}
     AND EXTRACT(MONTH FROM day) = ${month}
-    ORDER BY start ASC;`
+    ORDER BY id ASC;`
     res.json(shifts);
     console.log(shifts);
 });
